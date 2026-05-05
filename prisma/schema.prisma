@@ -1,0 +1,158 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id              String   @id @default(cuid())
+  fullName        String
+  email           String?
+  phone           String?
+  dateOfBirth     String?
+  nationality     String   @default("Iraqi")
+  city            String?
+  country         String   @default("Iraq")
+
+  // Academic Profile
+  gpa             Float
+  gpaScale        Float    @default(4.0)
+  gradingSystem   String   @default("4.0")
+  normalizedGpa   Float?
+  highSchoolType  String?
+  graduationYear  Int?
+
+  // Subjects & Scores
+  subjects        String   @default("[]")
+
+  // Language Scores
+  ieltsScore      Float?
+  toeflScore      Int?
+  arabicScore     Float?
+
+  // Certificates
+  certificates    String   @default("[]")
+
+  // Preferences
+  budgetMin       Int      @default(0)
+  budgetMax       Int      @default(50000)
+  preferredCountries String @default("[]")
+  preferredFields String   @default("[]")
+  preferredDegree String   @default("Bachelor")
+
+  // Location
+  latitude        Float?
+  longitude       Float?
+
+  // Documents
+  documents       Document[]
+
+  // Applications
+  applications    Application[]
+  recommendations Recommendation[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model University {
+  id              String   @id @default(cuid())
+  name            String
+  nameAr          String?
+  country         String
+  city            String?
+  region          String   @default("Middle East")
+  latitude        Float?
+  longitude       Float?
+  ranking         Int?
+  rankingLocal    Int?
+
+  // Admission Requirements
+  minGpa          Float    @default(2.0)
+  minIelts        Float?
+  minToefl        Int?
+  minSat          Int?
+  requiredSubjects String  @default("[]")
+  acceptsIraqiSystem Boolean @default(true)
+
+  // Cost
+  tuitionPerYear  Int      @default(0)
+  costOfLiving    Int      @default(0)
+  currency        String   @default("USD")
+
+  // Programs
+  programs        String   @default("[]")
+  degreesOffered  String   @default("[]")
+
+  // Stats
+  acceptanceRate  Float    @default(0.5)
+  internationalStudents Int @default(0)
+  totalStudents   Int      @default(0)
+
+  // Visa & Access
+  visaDifficulty  Int      @default(1)
+  scholarshipAvailable Boolean @default(false)
+
+  // Metadata
+  website         String?
+  description     String?
+  tags            String   @default("[]")
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Document {
+  id              String   @id @default(cuid())
+  studentId       String
+  student         Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  type            String   @default("transcript")
+  fileName        String
+  fileData        String?
+  extractedData   String?
+  status          String   @default("pending")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Application {
+  id              String   @id @default(cuid())
+  studentId       String
+  student         Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  universityId    String?
+  universityName  String
+  program         String
+  degree          String   @default("Bachelor")
+  status          String   @default("draft")
+
+  // Auto-filled content
+  personalStatement String?
+  motivationLetter  String?
+  academicCv        String?
+  formData          String?
+
+  // Tracking
+  submittedAt     DateTime?
+  responseDate    DateTime?
+  outcome         String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Recommendation {
+  id              String   @id @default(cuid())
+  studentId       String
+  student         Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  universityId    String
+  universityName  String
+  country         String
+  matchScore      Float
+  category        String   @default("target")
+  roiScore        Float?
+  reasons         String   @default("[]")
+  createdAt       DateTime @default(now())
+}
