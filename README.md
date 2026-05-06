@@ -1,7 +1,4 @@
-const fs = require('fs');
 
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1344 768" width="1344" height="768">
-  <defs>
 # UniPath AI
 **The Intelligent Bridge to Global Education for Iraqi Students**
 
