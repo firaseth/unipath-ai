@@ -1,3 +1,4 @@
+<img width="1344" height="768" alt="image" src="https://github.com/user-attachments/assets/c0247cf2-d1ec-44c0-abb6-0043de83c677" />
 
 # UniPath AI
 **The Intelligent Bridge to Global Education for Iraqi Students**
