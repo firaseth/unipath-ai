@@ -1,6 +1,3 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/firaseth/unipath-ai/main/public/og-image.png" alt="UniPath AI" width="100%"/>
-</p>
 
 # UniPath AI
 **The Intelligent Bridge to Global Education for Iraqi Students**
